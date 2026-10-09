@@ -1,4 +1,4 @@
-import { createContext, useContext, useState, type ReactNode } from 'react';
+import { createContext, useContext, useState, useEffect, type ReactNode } from 'react';
 
 export type OrderItem = {
   id: string;
@@ -28,46 +28,24 @@ type OrderContextType = {
 
 const OrderContext = createContext<OrderContextType | undefined>(undefined);
 
-// Initial Mock Data to show the system working
-const INITIAL_ORDERS: Order[] = [
-  {
-    id: 'ORD-1001',
-    shopName: 'Al-Madina Super Store',
-    status: 'Pending',
-    orderDate: new Date().toISOString(),
-    deliveryDate: null,
-    totalAmount: 12500,
-    items: [
-      { id: '1', productName: 'Lays French Cheese', quantity: 50, unitPrice: 100, subtotal: 5000 },
-      { id: '2', productName: 'Pepsi 1.5L', quantity: 30, unitPrice: 250, subtotal: 7500 },
-    ],
-  },
-  {
-    id: 'ORD-0998',
-    shopName: 'Khan Traders',
-    status: 'Delivered',
-    orderDate: new Date(Date.now() - 172800000).toISOString(), // 2 days ago
-    deliveryDate: new Date(Date.now() - 86400000).toISOString(),
-    totalAmount: 9500,
-    items: [
-      { id: '4', productName: 'Surf Excel 1kg', quantity: 10, unitPrice: 950, subtotal: 9500 },
-    ],
-  },
-  {
-    id: 'ORD-0950',
-    shopName: 'Bismillah General Store',
-    status: 'Delivered',
-    orderDate: new Date(Date.now() - 40 * 86400000).toISOString(), // 40 days ago
-    deliveryDate: new Date(Date.now() - 39 * 86400000).toISOString(),
-    totalAmount: 25000,
-    items: [
-      { id: '5', productName: 'Flour 20kg', quantity: 5, unitPrice: 5000, subtotal: 25000 },
-    ],
-  },
-];
-
 export function OrderProvider({ children }: { children: ReactNode }) {
-  const [orders, setOrders] = useState<Order[]>(INITIAL_ORDERS);
+  // Load initial state from browser storage or default to an empty array
+  const [orders, setOrders] = useState<Order[]>(() => {
+    const savedOrders = localStorage.getItem('bismillah_orders');
+    if (savedOrders) {
+      try {
+        return JSON.parse(savedOrders);
+      } catch (e) {
+        return [];
+      }
+    }
+    return [];
+  });
+
+  // Sync state to browser storage every time an order changes
+  useEffect(() => {
+    localStorage.setItem('bismillah_orders', JSON.stringify(orders));
+  }, [orders]);
 
   const addOrder = (orderData: Omit<Order, 'id' | 'orderDate' | 'status' | 'deliveryDate'>) => {
     const newOrder: Order = {
