@@ -59,18 +59,7 @@ The platform utilizes a purely frontend React architecture for maximum prototypi
 3.  **Styling**: `Tailwind CSS` provides a responsive, mobile-first design system with premium glassmorphism and shadow aesthetics.
 4.  **Tooling**: Powered by Vite for lightning-fast HMR and building.
 
----
 
-## 👥 System Credentials for Testing
-
-To run the application and test the role-based features, use the following credentials:
-
-| Role | Email | Password | Access Level |
-| :--- | :--- | :--- | :--- |
-| **System Admin** | `admin@bismillah.com` | `Bismillah@Admin2026` | Full System Access (Includes Dashboard) |
-| **Field Agent** | `agent@bismillah.com` | `Bismillah@Agent2026` | Restricted (Booking & Deliveries Only) |
-
----
 
 ## 🚀 Setup & Installation Guide
 
