@@ -173,26 +173,28 @@ export default function OrdersManagementPage() {
               </div>
 
               <div className="p-4">
-                <table className="w-full text-sm text-left text-gray-500 mb-4">
-                  <thead className="text-xs text-gray-700 uppercase bg-gray-50">
-                    <tr>
-                      <th className="px-2 py-2 rounded-l-lg">Item</th>
-                      <th className="px-2 py-2 text-center">Qty</th>
-                      <th className="px-2 py-2 text-right">Price</th>
-                      <th className="px-2 py-2 text-right rounded-r-lg">Subtotal</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {order.items.map(item => (
-                      <tr key={item.id} className="border-b border-gray-50 last:border-0">
-                        <td className="px-2 py-2 font-medium text-gray-900">{item.productName}</td>
-                        <td className="px-2 py-2 text-center">{item.quantity}</td>
-                        <td className="px-2 py-2 text-right">Rs {item.unitPrice}</td>
-                        <td className="px-2 py-2 text-right font-medium">Rs {item.subtotal.toLocaleString()}</td>
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm text-left text-gray-500 mb-4 whitespace-nowrap">
+                    <thead className="text-xs text-gray-700 uppercase bg-gray-50">
+                      <tr>
+                        <th className="px-2 py-2 rounded-l-lg">Item</th>
+                        <th className="px-2 py-2 text-center">Qty</th>
+                        <th className="px-2 py-2 text-right">Price</th>
+                        <th className="px-2 py-2 text-right rounded-r-lg">Subtotal</th>
                       </tr>
-                    ))}
-                  </tbody>
-                </table>
+                    </thead>
+                    <tbody>
+                      {order.items.map(item => (
+                        <tr key={item.id} className="border-b border-gray-50 last:border-0">
+                          <td className="px-2 py-2 font-medium text-gray-900">{item.productName}</td>
+                          <td className="px-2 py-2 text-center">{item.quantity}</td>
+                          <td className="px-2 py-2 text-right">Rs {item.unitPrice}</td>
+                          <td className="px-2 py-2 text-right font-medium">Rs {item.subtotal.toLocaleString()}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
 
                 <div className="flex flex-col sm:flex-row justify-between items-center pt-2 border-t border-gray-100 gap-4 mt-4">
                   <div className="text-lg font-bold text-gray-900">
@@ -242,31 +244,33 @@ export default function OrdersManagementPage() {
                 
                 <div className="space-y-3">
                   {editingOrder.items.map(item => (
-                    <div key={item.id} className="flex gap-2 items-center bg-gray-50 p-2 rounded-lg border border-gray-100">
+                    <div key={item.id} className="flex flex-col sm:flex-row gap-2 sm:items-center bg-gray-50 p-3 rounded-lg border border-gray-100">
                       <input 
                         type="text" 
                         value={item.productName}
                         onChange={e => handleEditItemChange(item.id, 'productName', e.target.value)}
-                        className="flex-1 rounded-md border border-gray-300 p-1.5 text-sm"
+                        className="w-full sm:flex-1 rounded-md border border-gray-300 p-2 text-sm"
                         placeholder="Item Name"
                       />
-                      <input 
-                        type="number" 
-                        value={item.quantity}
-                        onChange={e => handleEditItemChange(item.id, 'quantity', e.target.value)}
-                        className="w-16 rounded-md border border-gray-300 p-1.5 text-sm text-center"
-                        placeholder="Qty"
-                      />
-                      <input 
-                        type="number" 
-                        value={item.unitPrice}
-                        onChange={e => handleEditItemChange(item.id, 'unitPrice', e.target.value)}
-                        className="w-24 rounded-md border border-gray-300 p-1.5 text-sm text-right"
-                        placeholder="Price"
-                      />
-                      <button onClick={() => handleRemoveItemFromEdit(item.id)} className="text-red-500 hover:bg-red-100 p-1.5 rounded disabled:opacity-50" disabled={editingOrder.items.length <= 1}>
-                        <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
-                      </button>
+                      <div className="flex gap-2 items-center w-full sm:w-auto">
+                        <input 
+                          type="number" 
+                          value={item.quantity}
+                          onChange={e => handleEditItemChange(item.id, 'quantity', e.target.value)}
+                          className="w-20 rounded-md border border-gray-300 p-2 text-sm text-center"
+                          placeholder="Qty"
+                        />
+                        <input 
+                          type="number" 
+                          value={item.unitPrice}
+                          onChange={e => handleEditItemChange(item.id, 'unitPrice', e.target.value)}
+                          className="flex-1 sm:w-28 rounded-md border border-gray-300 p-2 text-sm text-right"
+                          placeholder="Price"
+                        />
+                        <button onClick={() => handleRemoveItemFromEdit(item.id)} className="text-red-500 bg-white border border-gray-300 hover:bg-red-100 p-2 rounded disabled:opacity-50" disabled={editingOrder.items.length <= 1}>
+                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" /></svg>
+                        </button>
+                      </div>
                     </div>
                   ))}
                 </div>
