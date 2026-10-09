@@ -162,7 +162,7 @@ export default function OrderBookingPage() {
           </div>
           
           <div className="space-y-4">
-            {items.map((item, index) => (
+            {items.map((item) => (
               <div key={item.id} className="relative bg-gray-50 p-3 rounded-lg border border-gray-100 pb-4">
                 
                 {/* Remove button (only if > 1 item) */}
